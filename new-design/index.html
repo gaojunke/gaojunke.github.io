@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新的网页设计</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #555;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            padding: 40px;
+            max-width: 800px;
+            margin: auto;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        img.hero {
+            width: 100%;
+            border-radius: 10px;
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>欢迎来到新的网页设计</h1>
+    </header>
+    <nav>
+        <a href="../index.html">主页</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+    </nav>
+    <main>
+        <img src="../a.JPEG" alt="示例图片" class="hero">
+        <section id="about">
+            <h2>关于</h2>
+            <p>这是一个新的网页设计示例，展示了一个基本的布局结构。</p>
+        </section>
+        <section id="contact">
+            <h2>联系</h2>
+            <p>你可以通过<a href="mailto:example@example.com">邮件</a>与我们取得联系。</p>
+        </section>
+    </main>
+    <footer>
+        &copy; 2025 新设计
+    </footer>
+</body>
+</html>

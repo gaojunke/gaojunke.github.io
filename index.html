@@ -1,335 +1,39 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>远程开机控制台（纯前端）</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #f4f0e9;
-      --paper: #fff9f0;
-      --ink: #1f1a17;
-      --accent: #c0392b;
-      --accent-dark: #922b21;
-      --muted: #6d625c;
-      --line: #d8c9b6;
-      --ok: #1f7a3b;
-      --error: #b42318;
-      --shadow: 0 18px 50px rgba(30, 23, 20, 0.14);
-    }
+    <title>CC</title>
+    <meta name="google-adsense-account" content="ca-pub-1226201716121649">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1226201716121649"
+     crossorigin="anonymous"></script>
+    <style>
+        .container {
+            position: relative;
+            width: 100%;
+            height: 1500px; /* 调整高度以适应你的图片 */
+        }
 
-    * { box-sizing: border-box; }
+        .image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 图片自适应容器，不失真 */
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Manrope", sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(1200px 700px at -20% -10%, rgba(192, 57, 43, 0.13), transparent 60%),
-        radial-gradient(900px 500px at 110% 110%, rgba(146, 43, 33, 0.16), transparent 58%),
-        repeating-linear-gradient(120deg, rgba(109, 98, 92, 0.05) 0 2px, transparent 2px 18px),
-        var(--bg);
-      display: grid;
-      place-items: center;
-      padding: 28px;
-    }
-
-    .card {
-      width: min(1020px, 100%);
-      background: linear-gradient(145deg, rgba(255, 249, 240, 0.92), rgba(255, 255, 255, 0.96));
-      border: 1px solid rgba(216, 201, 182, 0.9);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .top {
-      padding: 26px 30px 18px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(100deg, rgba(192, 57, 43, 0.08), rgba(192, 57, 43, 0));
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent-dark);
-      border: 1px solid rgba(146, 43, 33, 0.3);
-      border-radius: 999px;
-      padding: 6px 10px;
-      margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.6);
-    }
-
-    h1 {
-      margin: 0;
-      font-family: "Playfair Display", serif;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.08;
-      letter-spacing: 0.01em;
-    }
-
-    .subtitle {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 24px 30px 18px;
-    }
-
-    .field {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 12px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--muted);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .field input, .field select {
-      width: 100%;
-      border: 1px solid #ead9c2;
-      border-radius: 10px;
-      padding: 11px 12px;
-      font-size: 14px;
-      font-family: Consolas, Monaco, monospace;
-      color: var(--ink);
-      background: #fffefc;
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      padding: 6px 30px 18px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      padding: 13px 20px;
-      transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
-    }
-
-    #wakeBtn {
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      box-shadow: 0 10px 20px rgba(146, 43, 33, 0.27);
-      min-width: 190px;
-    }
-
-    #wakeBtn:hover { transform: translateY(-1px); }
-    #wakeBtn:active { transform: translateY(1px); }
-
-    #fillDefaults {
-      background: #f0e5d7;
-      color: var(--ink);
-      border: 1px solid #e0cdb2;
-    }
-
-    .status {
-      margin: 0 30px 24px;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
-      border: 1px solid var(--line);
-      background: #fff;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-    }
-
-    .ok { color: var(--ok); border-color: rgba(31, 122, 59, 0.3); background: rgba(31, 122, 59, 0.06); }
-    .error { color: var(--error); border-color: rgba(180, 35, 24, 0.3); background: rgba(180, 35, 24, 0.07); }
-
-    .notes {
-      border-top: 1px solid var(--line);
-      padding: 16px 30px 24px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .notes strong { color: var(--ink); }
-
-    @media (max-width: 760px) {
-      .grid { grid-template-columns: 1fr; }
-      body { padding: 14px; }
-      .top, .grid, .actions, .notes { padding-left: 16px; padding-right: 16px; }
-      .status { margin-left: 16px; margin-right: 16px; }
-    }
-  </style>
+        .music-player {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 居中 */
+            z-index: 1; /* 确保在图片之上 */
+        }
+    </style>
 </head>
 <body>
-  <main class="card">
-    <section class="top">
-      <span class="badge">Wake-on-LAN Frontend</span>
-      <h1>远程开机控制台（纯 HTML + JS）</h1>
-      <div class="subtitle">按钮会请求你配置的 WOL HTTP 接口，由该接口发送魔术包。</div>
-    </section>
-
-    <section class="grid">
-      <div class="field">
-        <label for="domain">外网域名</label>
-        <input id="domain" value="18633491950.qicp.vip" />
-      </div>
-      <div class="field">
-        <label for="mac">目标电脑 MAC</label>
-        <input id="mac" value="1C-69-7A-FD-97-AE" />
-      </div>
-      <div class="field">
-        <label for="lanIp">内网 IP</label>
-        <input id="lanIp" value="192.168.3.81" />
-      </div>
-      <div class="field">
-        <label for="broadcast">广播地址</label>
-        <input id="broadcast" value="192.168.3.255" />
-      </div>
-      <div class="field">
-        <label for="port">WOL 端口</label>
-        <input id="port" value="9" />
-      </div>
-      <div class="field">
-        <label for="apiUrl">WOL HTTP 接口地址</label>
-        <input id="apiUrl" value="https://18633491950.qicp.vip/wol" />
-      </div>
-      <div class="field">
-        <label for="httpMethod">请求方法</label>
-        <select id="httpMethod">
-          <option value="POST" selected>POST</option>
-          <option value="GET">GET</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="token">鉴权 Token（可空）</label>
-        <input id="token" placeholder="例如 abc123" />
-      </div>
-    </section>
-
-    <section class="actions">
-      <button id="wakeBtn">一键远程开机</button>
-      <button id="fillDefaults" type="button">恢复默认信息</button>
-    </section>
-
-    <p id="status" class="status">准备就绪，等待发送唤醒请求。</p>
-
-    <section class="notes">
-      <strong>关键限制：</strong>浏览器不能直接发 UDP 魔术包，所以必须有一个“常开设备接口”（路由器/NAS/HomeAssistant/OpenWrt API）来转发 WOL。<br />
-      <strong>接口约定：</strong>本页面默认发送 JSON：`{ domain, mac, lan_ip, broadcast, port }`；如果填了 token，会额外带 `Authorization: Bearer <token>`。
-    </section>
-  </main>
-
-  <script>
-    const defaults = {
-      domain: "18633491950.qicp.vip",
-      mac: "1C-69-7A-FD-97-AE",
-      lanIp: "192.168.3.81",
-      broadcast: "192.168.3.255",
-      port: "9",
-      apiUrl: "https://18633491950.qicp.vip/wol",
-      httpMethod: "POST",
-      token: ""
-    };
-
-    const byId = (id) => document.getElementById(id);
-    const statusEl = byId("status");
-
-    function setStatus(text, kind = "") {
-      statusEl.textContent = text;
-      statusEl.className = "status" + (kind ? ` ${kind}` : "");
-    }
-
-    function getPayload() {
-      return {
-        domain: byId("domain").value.trim(),
-        mac: byId("mac").value.trim(),
-        lan_ip: byId("lanIp").value.trim(),
-        broadcast: byId("broadcast").value.trim(),
-        port: Number(byId("port").value.trim() || "9")
-      };
-    }
-
-    byId("fillDefaults").addEventListener("click", () => {
-      byId("domain").value = defaults.domain;
-      byId("mac").value = defaults.mac;
-      byId("lanIp").value = defaults.lanIp;
-      byId("broadcast").value = defaults.broadcast;
-      byId("port").value = defaults.port;
-      byId("apiUrl").value = defaults.apiUrl;
-      byId("httpMethod").value = defaults.httpMethod;
-      byId("token").value = defaults.token;
-      setStatus("已恢复默认信息。", "");
-    });
-
-    byId("wakeBtn").addEventListener("click", async () => {
-      const btn = byId("wakeBtn");
-      const payload = getPayload();
-      const apiUrl = byId("apiUrl").value.trim();
-      const method = byId("httpMethod").value;
-      const token = byId("token").value.trim();
-
-      if (!apiUrl) {
-        setStatus("请先填写 WOL HTTP 接口地址。", "error");
-        return;
-      }
-
-      try {
-        btn.disabled = true;
-        btn.style.opacity = "0.72";
-        setStatus("正在请求远程唤醒接口...", "");
-
-        const headers = {};
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-
-        let resp;
-        if (method === "GET") {
-          const url = new URL(apiUrl);
-          Object.entries(payload).forEach(([k, v]) => url.searchParams.set(k, String(v)));
-          resp = await fetch(url.toString(), { method: "GET", headers });
-        } else {
-          headers["Content-Type"] = "application/json";
-          resp = await fetch(apiUrl, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(payload)
-          });
-        }
-
-        const raw = await resp.text();
-        if (!resp.ok) {
-          throw new Error(`HTTP ${resp.status}: ${raw.slice(0, 180)}`);
-        }
-
-        setStatus(`请求成功：${method} ${apiUrl}；MAC=${payload.mac}`, "ok");
-      } catch (err) {
-        setStatus(`请求失败：${err.message}`, "error");
-      } finally {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-      }
-    });
-  </script>
+    <div class="container">
+        <img src="https://github.com/gaojunke/gaojunke.github.io/blob/main/a.JPEG?raw=true.jpg" alt="在我和落日之间有你和台特玛湖" class="image">
+        <iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=2604862343&auto=1&height=66"></iframe>
+    </div>
 </body>
 </html>

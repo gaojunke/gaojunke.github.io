@@ -1,39 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>CC</title>
-    <meta name="google-adsense-account" content="ca-pub-1226201716121649">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1226201716121649"
-     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高军科（科科） | Gavin</title>
+    <meta name="description" content="高军科（科科）/ Gavin 的个人网站：GIS 空间数据探索者，正在走向 AI + GIS 开源编程。">
     <style>
-        .container {
-            position: relative;
-            width: 100%;
-            height: 1500px; /* 调整高度以适应你的图片 */
+        :root {
+            color-scheme: light;
+            --bg: #0b1020;
+            --panel: #141b33;
+            --text: #e9eefc;
+            --muted: #a6b3d6;
+            --accent: #7aa2ff;
+            --accent-2: #79f2d2;
+            --border: #27345c;
         }
 
-        .image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 图片自适应容器，不失真 */
+        * {
+            box-sizing: border-box;
         }
 
-        .music-player {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* 居中 */
-            z-index: 1; /* 确保在图片之上 */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: radial-gradient(circle at top, #1a2650 0%, var(--bg) 55%);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 20px 64px;
+        }
+
+        .hero,
+        section {
+            background: rgba(20, 27, 51, 0.85);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0 0 8px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: var(--accent-2);
+        }
+
+        p {
+            margin: 0 0 12px;
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .quote {
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+            color: var(--muted);
+            margin-top: 14px;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        ul {
+            margin: 8px 0 0;
+            padding-left: 20px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+            padding-top: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .wrapper {
+                padding-top: 24px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://github.com/gaojunke/gaojunke.github.io/blob/main/a.JPEG?raw=true.jpg" alt="在我和落日之间有你和台特玛湖" class="image">
-        <iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=2604862343&auto=1&height=66"></iframe>
-    </div>
+    <main class="wrapper">
+        <header class="hero">
+            <h1>高军科（科科） / Gavin</h1>
+            <p class="tagline">GIS 空间数据探索者，正在走向 AI + GIS 开源编程。</p>
+            <p>我相信，AI 会重构地理信息工作的效率与创造方式。</p>
+        </header>
+
+        <section>
+            <h2>About</h2>
+            <p>我长期从事 GIS 规划相关工作，熟悉 GIS 分析与空间数据处理流程。</p>
+            <p>目前我正在从“工具使用者”转向“开源 GIS 开发者”，重点学习 AI 编程，并探索 AI + GIS 的实际落地。</p>
+            <p>我熟悉 ArcGIS 与 QGIS，关注的不只是完成分析任务，更是把流程工程化、自动化，做成可复用的能力。</p>
+        </section>
+
+        <section>
+            <h2>Vision</h2>
+            <p>我的目标是打造一款开源的 AI+GIS 工具：</p>
+            <ul>
+                <li>具备类似 Codex 的清晰交互体验</li>
+                <li>面向真实 GIS 分析场景</li>
+                <li>显著提升数据处理与空间分析效率</li>
+            </ul>
+            <p>我希望它不仅“可演示”，更“可工作”。</p>
+        </section>
+
+        <section>
+            <h2>Skills</h2>
+            <div class="skills">
+                <div>
+                    <p><strong>GIS</strong></p>
+                    <ul>
+                        <li>GIS 分析（全流程）</li>
+                        <li>空间数据处理与问题建模</li>
+                        <li>ArcGIS / QGIS</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>方向升级中</strong></p>
+                    <ul>
+                        <li>开源 GIS 编程</li>
+                        <li>AI 编程与工作流实践</li>
+                        <li>AI + GIS 应用落地</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Now</h2>
+            <ul>
+                <li>正在系统学习 AI 编程</li>
+                <li>持续跟踪 X 上的 AI 与开源动态</li>
+                <li>以“每天一点”的节奏推进 AI+GIS 能力建设</li>
+                <li>目标：做出可公开展示的开源 AI+GIS 原型</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <p>X：<a href="https://x.com/jhscc" target="_blank" rel="noopener noreferrer">@jhscc</a></p>
+            <p class="quote">Build in public. Learn in practice. Ship with purpose.</p>
+        </section>
+
+        <footer>
+            © 2026 高军科（科科） / Gavin
+        </footer>
+    </main>
 </body>
 </html>
